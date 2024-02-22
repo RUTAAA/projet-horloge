@@ -28,8 +28,39 @@ function taboule(res, query) {
         }
     });
 }
+// UTILISATEURS
 
-app.get("/enregister_station/:id_utilisateur", (req, res) => {
+// get utilisateur by email
+app.get("/utilisateurs/exists/:email", (req, res) => {
+    const { email } = req.params;
+    const query = "SELECT * FROM utilisateurs WHERE email='" + email + "'";
+    taboule(res, query);
+});
+
+// add utilisateur
+app.post("/utilisateurs/new", (req, res) => {
+    const value = req.body;
+    const query =
+        "INSERT INTO `t_utilisateur`(`nom`, `prénom`, `adresse_mail`, `numéro_téléphone`, `nom_utilisateur`, `mot_de_passe`) VALUES ('" +
+        value.nom +
+        "','" +
+        value.prenom +
+        "','" +
+        value.adresse +
+        "','" +
+        value.telephone +
+        "','" +
+        value.utilisateur +
+        "','" +
+        value.motDePasse +
+        "')";
+    taboule(res, query);
+});
+
+// STATIONS
+
+// add station
+app.get("/stations/new/:id_utilisateur", (req, res) => {
     const { id_utilisateur } = req.params;
     const query =
         "INSERT INTO `stations` (`id`, `id_horloge`, `id_utilisateur`) VALUES (NULL, NULL, '" +
@@ -38,6 +69,9 @@ app.get("/enregister_station/:id_utilisateur", (req, res) => {
     taboule(res, query);
 });
 
+// CONFIGURATIONS
+
+// get configuration by id_utilisateur
 app.get("/configuration/:id_utilisateur", (req, res) => {
     const { id_utilisateur } = req.params;
     const query =
@@ -45,14 +79,5 @@ app.get("/configuration/:id_utilisateur", (req, res) => {
         id_utilisateur +
         " UNION SELECT evenements.nom, evenements.debut, evenements.duree, evenements.couleur, 'evenement' as type FROM evenements WHERE evenements.id_utilisateur = " +
         id_utilisateur;
-    taboule(res, query);
-});
-
-app.get("/utilisateurs/exists/:email", (req, res) => {
-    const { email } = req.params;
-    const query =
-        "SELECT COUNT(email) AS 'nombre' FROM utilisateurs WHERE email='" +
-        email +
-        "'";
     taboule(res, query);
 });
