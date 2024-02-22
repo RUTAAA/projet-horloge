@@ -12,22 +12,42 @@ function Horloge() {
     const [configuration, periodes, evenements] = Donnees();
     const [dureesPeriodes, setDureesPeriodes] = useState([1]);
     const [couleursPeriodes, setCouleursPeriodes] = useState(["transparent"]);
+    const [dureesEvenements, setDureesEvenements] = useState([1]);
+    const [couleursEvenements, setCouleursEvenements] = useState(["transparent"]);
 
-    const getPeriodes = async (rep) => {
-        var durees = [];
-        var couleurs = [];
-        rep.forEach((periode) => {
-            durees.push(periode.duree);
-            couleurs.push(periode.couleur);
+    const getPeriodes = async (periodes, evenements) => {
+        var tempDureesPeriodes = [];
+        var tempCouleursPeriodes = [];
+        periodes.forEach((element) => {
+            tempDureesPeriodes.push(element.duree);
+            tempCouleursPeriodes.push(element.couleur);
         });
-        if (durees.length != 0 && couleurs.length != 0) {
-            setDureesPeriodes(durees);
-            setCouleursPeriodes(couleurs);
+
+        var tempDureesEvenements = [];
+        var tempCouleursEvenements = [];
+        var x = 0;
+        evenements.forEach((element) => {
+            if (element.debut >= x) {
+                tempDureesEvenements.push(element.debut - x);
+                tempCouleursEvenements.push("transparent");
+                x = element.debut + element.duree;
+            }
+            tempDureesEvenements.push(element.duree);
+            tempCouleursEvenements.push(element.couleur);
+        });
+
+        if (tempDureesPeriodes.length != 0 && tempCouleursPeriodes.length != 0) {
+            setDureesPeriodes(tempDureesPeriodes);
+            setCouleursPeriodes(tempCouleursPeriodes);
+        }
+        if (tempDureesEvenements.length != 0 && tempCouleursEvenements.length != 0) {
+            setDureesEvenements(tempDureesEvenements);
+            setCouleursEvenements(tempCouleursEvenements);
         }
     };
 
     useEffect(() => {
-        getPeriodes(periodes);
+        getPeriodes(periodes, evenements);
         setRotation({
             deg: (new Date().getHours() * 60 + new Date().getMinutes()) / 4,
         });
@@ -39,6 +59,14 @@ function Horloge() {
                 widthAndHeight={tailleHorloge}
                 series={dureesPeriodes}
                 sliceColor={couleursPeriodes}
+                coverRadius={0.2}
+                coverFill={"#FFF"}
+            ></PieChart>
+            <PieChart
+                style={{ position: "absolute" }}
+                widthAndHeight={tailleHorloge}
+                series={dureesEvenements}
+                sliceColor={couleursEvenements}
                 coverRadius={0.2}
                 coverFill={"#FFF"}
             ></PieChart>
