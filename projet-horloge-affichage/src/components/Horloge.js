@@ -5,6 +5,7 @@ import { tailleHorloge, Donnees } from "../valeurs_gloables";
 
 const padding = 50;
 const tailleLabel = tailleHorloge * 0.075;
+const tailleHorlogeCentre = 0.7;
 function Horloge() {
     const [rotation, setRotation] = useState({
         deg: (new Date().getHours() * 60 + new Date().getMinutes()) / 4,
@@ -35,6 +36,10 @@ function Horloge() {
             tempDureesEvenements.push(element.duree);
             tempCouleursEvenements.push(element.couleur);
         });
+        if (x < 1440) {
+            tempDureesEvenements.push(1440 - x);
+            tempCouleursEvenements.push("transparent");
+        }
 
         if (tempDureesPeriodes.length != 0 && tempCouleursPeriodes.length != 0) {
             setDureesPeriodes(tempDureesPeriodes);
@@ -59,17 +64,18 @@ function Horloge() {
                 widthAndHeight={tailleHorloge}
                 series={dureesPeriodes}
                 sliceColor={couleursPeriodes}
-                coverRadius={0.2}
+                coverRadius={tailleHorlogeCentre}
                 coverFill={"#FFF"}
             ></PieChart>
             <PieChart
                 style={{ position: "absolute" }}
-                widthAndHeight={tailleHorloge}
+                widthAndHeight={tailleHorloge * tailleHorlogeCentre}
                 series={dureesEvenements}
                 sliceColor={couleursEvenements}
                 coverRadius={0.2}
                 coverFill={"#FFF"}
             ></PieChart>
+
             <View
                 style={[
                     styles.absoluteContainer,

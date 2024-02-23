@@ -78,6 +78,7 @@ app.get("/configuration/:id_utilisateur", (req, res) => {
         "SELECT periodes.nom, periodes.debut, periodes.duree, periodes.couleur, 'periode' as type FROM periodes JOIN stations ON periodes.id_configuration = stations.id_configuration AND stations.id_utilisateur = " +
         id_utilisateur +
         " UNION SELECT evenements.nom, evenements.debut, evenements.duree, evenements.couleur, 'evenement' as type FROM evenements WHERE evenements.id_utilisateur = " +
-        id_utilisateur;
+        id_utilisateur +
+        " ORDER BY debut ASC";
     taboule(res, query);
 });
