@@ -1,20 +1,36 @@
-J'ai corrigé l'horloge.
+REQUIREMENTS
 
-Donc il faut juste faire:
-node ~/Desktop/server/app.js
+Node.js
+npm
 
-    cd ~/Desktop/my-app-tuto
-    npm run web
+.
 
-Et après dans le navigateur d'un PC sur le même réseau http://10.0.200.35:8081/
-Vous pouvez toujours modifier ce que je vous ai dit sur papier.
+CONFIGURATION
 
-Vous pouvez aller voir la base de données dans le phpmyadmin du alwaysdata.
-https://phpmyadmin.alwaysdata.com/
-Utilisateur MySQL: 344916
-Mot de passe: stjolorient
-C'est la base "projethorloge_euhlucasilestgreugreugneugneu" que j'utilise.
-Si vous modifiez la couleur d'une période dans la table "periodes", la couleur sera instantanément changée sur l'horloge, pareil pour les durées, débuts...
-Les valeurs sont en minutes.
+cd projet-horloge-api
+npm i
 
-token github: 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
+cd projet-horloge-affichage
+npm i
+
+.
+
+START
+
+cd projet-horloge-api
+node app.js
+
+cd projet-horloge-affichage
+npm run web
+
+Then, on the same network, go to http://[IP-ADDRESS]:8081/
+
+.
+
+CREDENTIALS
+
+GitHub project token: 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
+
+Database projethorloge_euhlucasilestgreugreugneugneu at: https://phpmyadmin.alwaysdata.com/
+MySQL user: 344916
+Password: stjolorient

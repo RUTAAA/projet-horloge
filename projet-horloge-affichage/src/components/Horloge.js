@@ -5,7 +5,15 @@ import { tailleHorloge, Donnees } from "../valeurs_gloables";
 
 const padding = 50;
 const tailleLabel = tailleHorloge * 0.075;
-const tailleHorlogeCentre = 0.7;
+const horlogePeriodesTaille = tailleHorloge;
+const horlogeEvenementsTaille = tailleHorloge;
+const horlogePeriodesTrouTaille = 0.2;
+const horlogeEvenementsTrouTaille = horlogePeriodesTrouTaille + 0.1;
+const horlogePeriodesTrouCouleur = "#ffffff";
+const horlogeEvenementsTrouCouleur = "#ffffff00";
+const horlogePeriodesOpacite = 0.5;
+const horlogeEvenementsOpacite = 1;
+
 function Horloge() {
     const [rotation, setRotation] = useState({
         deg: (new Date().getHours() * 60 + new Date().getMinutes()) / 4,
@@ -61,19 +69,22 @@ function Horloge() {
     return (
         <View style={styles.container}>
             <PieChart
-                widthAndHeight={tailleHorloge}
+                widthAndHeight={horlogePeriodesTaille}
+                coverRadius={horlogePeriodesTrouTaille}
+                coverFill={horlogePeriodesTrouCouleur}
+                style={{
+                    opacity: horlogePeriodesOpacite,
+                }}
                 series={dureesPeriodes}
                 sliceColor={couleursPeriodes}
-                coverRadius={tailleHorlogeCentre}
-                coverFill={"#FFF"}
             ></PieChart>
             <PieChart
-                style={{ position: "absolute" }}
-                widthAndHeight={tailleHorloge * tailleHorlogeCentre}
+                widthAndHeight={horlogeEvenementsTaille}
+                coverRadius={horlogeEvenementsTrouTaille}
+                coverFill={horlogeEvenementsTrouCouleur}
+                style={{ position: "absolute", opacity: horlogeEvenementsOpacite }}
                 series={dureesEvenements}
                 sliceColor={couleursEvenements}
-                coverRadius={0.2}
-                coverFill={"#FFF"}
             ></PieChart>
 
             <View

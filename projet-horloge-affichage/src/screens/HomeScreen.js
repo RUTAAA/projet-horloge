@@ -6,6 +6,7 @@ import Horloge from "../components/Horloge";
 import Moment from "../components/Moment";
 import Jour from "../components/Jour";
 import Heure from "../components/Heure";
+import ListeEvenements from "../components/ListeEvenements";
 
 const HomeScreen = () => {
     return (
@@ -18,6 +19,7 @@ const HomeScreen = () => {
                 <Jour />
                 <Heure />
                 <Moment />
+                <ListeEvenements />
             </View>
         </>
     );
