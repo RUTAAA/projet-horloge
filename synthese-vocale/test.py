@@ -1,15 +1,27 @@
 from gtts import gTTS
-import playsound
+from playsound import playsound
 
-def text_to_speech(text):
-    # Initialize gTTS with the text to convert
-    speech = gTTS(text)
+save_location = ""
 
-    # Save the audio file to a temporary file
-    speech_file = 'speech.mp3'
-    speech.save(speech_file)
+def genererMP3(text, name):
+    gTTS(text=text, lang="fr").save(save_location + name + ".mp3")
+    return name
 
-    # Play the audio file
-    playsound.playsound('speech.mp3', True)
+def lireMP3(name):
+    playsound(save_location + name + ".mp3")
 
-text_to_speech("Bonjour je suis Lucas")
+
+"""
+filename = input("Nom du fichier (sans extension): ") + ".mp3"
+text = input("Phrase a dire: ")
+language = "fr"
+
+tts = gTTS(text=text, lang=language)
+tts.save(filename)
+
+playsound(filename)
+"""
+
+nom = input("Nom du fichier (sans extension): ")
+phrase = input("Phrase a dire: ")
+lireMP3(genererMP3(phrase, nom))
