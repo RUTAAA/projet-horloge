@@ -33,13 +33,11 @@ const connection = mysql.createConnection({
 // FONCTIONS
 async function mayonnaise(res, query, IDUtilisateur, APIKey) {
     connection.query(
-        "SELECT * FROM utilisateurs WHERE id=" +
-            IDUtilisateur +
-            " AND clef_api='" +
-            APIKey +
-            "'",
+        "SELECT * FROM utilisateurs WHERE id=" + IDUtilisateur + " AND clef_api='" + APIKey + "'",
         (err, result) => {
-            if (result.length == 1) {
+            if (result === undefined) {
+                res.status(500).send({ Erreur: "Hmm, bizarre..." });
+            } else if (result.length == 1) {
                 connection.query(query, (err, result) => {
                     if (err) {
                         res.status(500).send(err);

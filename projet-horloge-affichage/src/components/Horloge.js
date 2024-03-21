@@ -6,9 +6,9 @@ import { tailleHorloge, Donnees } from "../valeurs_gloables";
 const padding = 50;
 const tailleLabel = tailleHorloge * 0.075;
 const horlogePeriodesTaille = tailleHorloge;
-const horlogeEvenementsTaille = tailleHorloge;
+const horlogeEvenementsTaille = horlogePeriodesTaille * 0.9;
 const horlogePeriodesTrouTaille = 0.2;
-const horlogeEvenementsTrouTaille = horlogePeriodesTrouTaille + 0.1;
+const horlogeEvenementsTrouTaille = 0.2 / 0.9;
 const horlogePeriodesTrouCouleur = "#ffffff";
 const horlogeEvenementsTrouCouleur = "#ffffff00";
 const horlogePeriodesOpacite = 0.5;
@@ -23,6 +23,8 @@ function Horloge() {
     const [couleursPeriodes, setCouleursPeriodes] = useState(["transparent"]);
     const [dureesEvenements, setDureesEvenements] = useState([1]);
     const [couleursEvenements, setCouleursEvenements] = useState(["transparent"]);
+    const [strokeEvenements, setStrokeEvenements] = useState([]);
+    const [strokeWidthEvenements, setStrokeWidthEvenements] = useState([]);
 
     const getPeriodes = async (periodes, evenements) => {
         var tempDureesPeriodes = [];
@@ -34,15 +36,21 @@ function Horloge() {
 
         var tempDureesEvenements = [];
         var tempCouleursEvenements = [];
+        var tempStrokeEvenements = [];
+        var tempStrokeWidthEvenements = [];
         var x = 0;
         evenements.forEach((element) => {
             if (element.debut >= x) {
                 tempDureesEvenements.push(element.debut - x);
                 tempCouleursEvenements.push("transparent");
+                tempStrokeWidthEvenements.push(0);
+                tempStrokeEvenements.push("transparent");
                 x = element.debut + element.duree;
             }
             tempDureesEvenements.push(element.duree);
             tempCouleursEvenements.push(element.couleur);
+            tempStrokeWidthEvenements.push(3);
+            tempStrokeEvenements.push("black");
         });
         if (x < 1440) {
             tempDureesEvenements.push(1440 - x);
@@ -53,9 +61,16 @@ function Horloge() {
             setDureesPeriodes(tempDureesPeriodes);
             setCouleursPeriodes(tempCouleursPeriodes);
         }
-        if (tempDureesEvenements.length != 0 && tempCouleursEvenements.length != 0) {
+        if (
+            tempDureesEvenements.length != 0 &&
+            tempCouleursEvenements.length != 0 &&
+            tempStrokeEvenements.length != 0 &&
+            tempStrokeWidthEvenements.length != 0
+        ) {
             setDureesEvenements(tempDureesEvenements);
             setCouleursEvenements(tempCouleursEvenements);
+            setStrokeEvenements(tempStrokeEvenements);
+            setStrokeWidthEvenements(tempStrokeWidthEvenements);
         }
     };
 
@@ -72,9 +87,7 @@ function Horloge() {
                 widthAndHeight={horlogePeriodesTaille}
                 coverRadius={horlogePeriodesTrouTaille}
                 coverFill={horlogePeriodesTrouCouleur}
-                style={{
-                    opacity: horlogePeriodesOpacite,
-                }}
+                style={{ opacity: horlogePeriodesOpacite }}
                 series={dureesPeriodes}
                 sliceColor={couleursPeriodes}
             ></PieChart>
@@ -85,6 +98,8 @@ function Horloge() {
                 style={{ position: "absolute", opacity: horlogeEvenementsOpacite }}
                 series={dureesEvenements}
                 sliceColor={couleursEvenements}
+                stroke={strokeEvenements}
+                strokeWidth={strokeWidthEvenements}
             ></PieChart>
 
             <View
@@ -206,8 +221,8 @@ const styles = StyleSheet.create({
         backgroundColor: "transparent",
     },
     aiguille: {
-        top: "5%",
-        height: "40%",
+        top: "2%",
+        height: "43%",
         width: "100%",
         backgroundColor: "black",
     },
