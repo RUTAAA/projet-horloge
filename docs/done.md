@@ -5,7 +5,7 @@
 ## MISES A JOUR:
 
 pour la raspberry\
-sudo apt update
+`sudo apt update`
 sudo apt upgrade
 
 pour un projet Node.js
