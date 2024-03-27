@@ -4,7 +4,7 @@
 
 ## MISES A JOUR:
 
-pour la raspberry
+pour la raspberry\
 sudo apt update
 sudo apt upgrade
 
