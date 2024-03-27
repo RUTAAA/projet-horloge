@@ -75,8 +75,13 @@ https://youtu.be/b9TGUG8rmeI?si=uTU4FV2dOvlCJBxZ
 // Pour cloner le projet depuis GitHub
 git clone https://github.com/RUTAAA/projet-horloge.git
 
+
 // Pour un projet avec Git.
 git init
+
+// Configurer Git pour le projet
+git config user.name "Lucas LB"
+git config user.email leborloch.l@stjolorient.fr
 
 // Pour enregistrer toutes les modifications
 git add .

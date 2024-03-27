@@ -5,6 +5,7 @@
 
 # dependencies
 node_modules/
+venv*/
 
 # Expo
 .expo/
