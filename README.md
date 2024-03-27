@@ -1,9 +1,12 @@
+
+HORLOGE
+
 REQUIREMENTS
 
 Node.js
 npm
 
-.
+
 
 CONFIGURATION
 
@@ -13,7 +16,7 @@ npm i
 cd projet-horloge-affichage
 npm i
 
-.
+
 
 START
 
@@ -24,3 +27,16 @@ cd projet-horloge-affichage
 npm run web
 
 Then, on the same network, go to http://[IP-ADDRESS]:8081/
+
+
+
+
+
+PYTHON
+
+REQUIREMENTS
+
+paho-mqtt
+gTTS
+python-vlc
+mutagen
