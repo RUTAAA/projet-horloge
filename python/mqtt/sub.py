@@ -11,7 +11,7 @@ def on_connect(client, userdata, flags, reason_code, properties):
     client.subscribe(topic)
 
 def on_message(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
+    print("Topic: " + msg.topic +"    Message: "+ msg.payload.decode())
 
 mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 mqttc.on_connect = on_connect
