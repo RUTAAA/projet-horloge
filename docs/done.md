@@ -139,59 +139,59 @@ Pour le désactiver.\
 
 ## PROJET:
 
-Création du projet horloge.
-mkdir ~/projet_horloge
-cd ~/projet_horloge
+Création du projet horloge.\
+`mkdir ~/projet_horloge`\
+`cd ~/projet_horloge`
 
-Son arborescence est à détailler.
+> Son arborescence est à détailler.
 
 
 
 ### APPLICATION HORLOGE:
 
-Initialisation du projet avec npm.
-npm init -y
+Initialisation du projet avec npm.\
+`npm init -y`
 
-Création de l'application expo, pour faire du React Native.
-npm install create-expo-app –save
-npx create-expo-app
+Création de l'application expo, pour faire du React Native.\
+`npm install create-expo-app –save`\
+`npx create-expo-app`
 
-Allons dans le dossier de l'application.
-cd projet_horloge_affichage
+Allons dans le dossier de l'application.\
+`cd projet_horloge_affichage`
 
-Installation d’un module pour créer des diagrammes circulaires en React native, cela servira pour faire l’horloge.
-npm install react-native-pie-chart
+Installation d’un module pour créer des diagrammes circulaires en React native, cela servira pour faire l’horloge.\
+`npm install react-native-pie-chart`
 
-Pour lancer l'application.
-npm run web
-npm run android
-npm run ios
+Pour lancer l'application.\
+`npm run web`\
+`npm run android`\
+`npm run ios`
 
 
 
 ### API BASE DE DONNEES:
 
-[#1 Localhost Mysql Fetch || React Native || with Express || Nodejs](https://youtu.be/ztTM50ZuKNo?si=1PKbUbIeFN3MngUk)
+[#1 Localhost Mysql Fetch || React Native || with Express || Nodejs](https://youtu.be/ztTM50ZuKNo?si=1PKbUbIeFN3MngUk)\
 [RESTful APIs in 100 Seconds // Build an API from Scratch with Node.js Express](https://youtu.be/-MTSQjw5DrM?si=mDwYJAMdDAM92gAj)
 
-Création du dossier de l'API
-mkdir ~/projet_horloge/projet_horloge_api
-cd ~/projet_horloge/projet_horloge_api
+Création du dossier de l'API\
+`mkdir ~/projet_horloge/projet_horloge_api`\
+`cd ~/projet_horloge/projet_horloge_api`
 
-Initialisation du projet avec npm.
-npm init -y
+Initialisation du projet avec npm.\
+`npm init -y`
 
-Installation de modules utiles.
-npm i express
-npm i mysql
-npm i cors
+Installation de modules utiles.\
+`npm i express`\
+`npm i mysql`\
+`npm i cors`
 
-Pour lancer l'API.
-node app.js
-
-
+Pour lancer l'API.\
+`node app.js`
 
 
 
-Je n'ai pas expliqué la modification du module react-native-pie-chart.
-Je n'ai pas expliqué non plus le MQTT et la synthèse vocale que j'ai fait avec Python.
+
+
+> Je n'ai pas expliqué la modification du module react-native-pie-chart.
+> Je n'ai pas expliqué non plus le MQTT et la synthèse vocale que j'ai fait avec Python.
