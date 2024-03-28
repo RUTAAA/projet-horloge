@@ -16,11 +16,10 @@ app.use(express.json());
 app.use(cors({ origin: "*" }));
 app.listen(port, () => console.log(`listening here: http://localhost:${port}`));
 const connection = mysql.createConnection({
-    host: "mysql-projethorloge.alwaysdata.net",
-    //user: "344916_read",
-    user: "344916",
-    password: "stjolorient",
-    database: "projethorloge_euhlucasilestgreugreugneugneu",
+    host: "10.0.200.37",
+    user: "admineleve",
+    password: "ieufdl",
+    database: "projet_horloge",
     port: 3306,
 });
 
@@ -33,7 +32,11 @@ const connection = mysql.createConnection({
 // FONCTIONS
 async function mayonnaise(res, query, IDUtilisateur, APIKey) {
     connection.query(
-        "SELECT * FROM utilisateurs WHERE id=" + IDUtilisateur + " AND clef_api='" + APIKey + "'",
+        "SELECT * FROM utilisateurs WHERE id=" +
+            IDUtilisateur +
+            " AND clef_api='" +
+            APIKey +
+            "'",
         (err, result) => {
             if (result === undefined) {
                 res.status(500).send({ Erreur: "Hmm, bizarre..." });
@@ -131,4 +134,21 @@ app.get("/configuration/:id_utilisateur", (req, res) => {
         id_utilisateur +
         " ORDER BY debut ASC";
     mayonnaise(res, query, id_utilisateur, clef_api);
+});
+
+//
+
+// TESTS
+
+// test get configuration by id_utilisateur
+app.get("/test/configuration/:id_utilisateur", (req, res) => {
+    const { id_utilisateur } = req.params;
+    const clef_api = req.header("API-Key");
+    const query =
+        "SELECT periodes.nom, periodes.debut, periodes.duree, periodes.couleur, 'periode' as type FROM periodes JOIN stations ON periodes.id_configuration = stations.id_configuration AND stations.id_utilisateur = " +
+        id_utilisateur +
+        " UNION SELECT evenements.nom, evenements.debut, evenements.duree, evenements.couleur, 'evenement' as type FROM evenements WHERE evenements.id_utilisateur = " +
+        id_utilisateur +
+        " ORDER BY debut ASC";
+    taboule(res, query);
 });
