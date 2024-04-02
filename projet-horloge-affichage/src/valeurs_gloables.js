@@ -15,7 +15,7 @@ export function Donnees() {
         var response = [""];
         try {
             response = await fetch(
-                `http://10.0.200.35:5000/configuration/${IDUtilisateur}`,
+                `http://10.0.200.37:5000/configuration/${IDUtilisateur}`,
                 {
                     method: "GET",
                     mode: "cors",
