@@ -8,13 +8,17 @@ import requests
 import datetime
 import time
 from threading import Thread
+import os
 
 
 
 # VARIABLES GLOBALES
 
+temps_veille = 5
+temps_odeur = 5
+
 id_utilisateur = 1
-clef_API = "cn9p5v1j0h7wmfi7dyenz3v2rdzr30l6lug5qk1rq25jq9mucmdwvw5sbm7m"
+clef_API = "cehb78icef2as5tlcqs6vryfpbvmdndbme72j8daubjdj9nvfzi4dv0flf"
 
 broker = "10.0.200.35"
 port = 1883
@@ -23,9 +27,11 @@ client_id = "ABCD"
 username = "admineleve"
 password = "ieufdl"
 
-save_location = "/home/admineleve/projet-horloge/python/synthese-vocale/"
+#save_location = "/home/admineleve/projet-horloge/python/synthese-vocale/"
+save_location = ""
 
-presence = 0
+odeur = datetime.datetime.now().hour*60 + datetime.datetime.now().minute
+presence = datetime.datetime.now().hour*60 + datetime.datetime.now().minute
 
 
 
@@ -43,8 +49,15 @@ while True:
     if donnees != None and now != previous_now:
         for donnee in donnees:
             if donnee["debut"] == now:
-                if presence > now-10:
-                    synthese_vocale.lireMP3( synthese_vocale.genererMP3(phrase, nom, save_location), save_location )
+                if presence > now - temps_veille:
+                    synthese_vocale.lireMP3( synthese_vocale.genererMP3(donnee["nom"], donnee["nom"], save_location), save_location )
+                if donnee["odeur"] == 1:
+                    odeur = datetime.datetime.now().hour*60 + datetime.datetime.now().minute
+                    os.system("kasa --host 192.168.1.100 --username projethorlogesnir@gmail.com --password stjolorient0- on")
 
+    if odeur < now - temps_odeur and odeur != -1:
+        os.system("kasa --host 192.168.1.100 --username projethorlogesnir@gmail.com --password stjolorient0- off")
+        odeur = -1
+    
     previous_now = now
     time.sleep(5)

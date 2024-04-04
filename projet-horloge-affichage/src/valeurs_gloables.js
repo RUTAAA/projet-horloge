@@ -1,8 +1,13 @@
 import React, { useState, useEffect, createContext } from "react";
 
+/*
 export const IDUtilisateur = 1;
 export const clefAPI =
     "cehb78icef2as5tlcqs6vryfpbvmdndbme72j8daubjdj9nvfzi4dv0flf";
+*/
+export const IDUtilisateur = 8;
+export const clefAPI = "hqbmqzpbw1dzgum7cbeo4zt1tla41tzgplpvywkd745fmwl6lwrt9cg3by";
+
 export const tailleHorloge = 800;
 export const bigFontSize = tailleHorloge * 0.05;
 
@@ -48,6 +53,7 @@ export function Donnees() {
 
     useEffect(() => {
         getConfiguration();
+        console.log(configuration)
     }, [configuration]);
 
     return [configuration, periodes, evenements];
