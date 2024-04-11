@@ -19,7 +19,10 @@ const ListeEvenements = () => {
             }
         }
         for (let i = 0; i < array.length; i++) {
-            if (array[i].debut <= now && now <= array[i].debut + array[i].duree) {
+            if (
+                array[i].debut <= now &&
+                now <= array[i].debut + array[i].duree
+            ) {
                 return i;
             }
         }
@@ -29,15 +32,24 @@ const ListeEvenements = () => {
         if (nom === undefined) {
             return;
         } else {
-            return (nom.charAt(0).toUpperCase() + nom.slice(1)).replace("_", " ");
+            return (nom.charAt(0).toUpperCase() + nom.slice(1)).replace(
+                "_",
+                " "
+            );
         }
     }
     function formaterHeure(minutes) {
         if (minutes === undefined) {
             return;
         }
-        let h = Math.floor(minutes / 60) == 0 ? "00" : Math.floor(minutes / 60);
-        let m = minutes - h * 60 == 0 ? "00" : minutes - h * 60;
+        let h = Math.floor(minutes / 60);
+        if (h < 10) {
+            h = "0" + h;
+        }
+        let m = minutes - h * 60;
+        if (m < 10) {
+            m = "0" + m;
+        }
         return h + "H" + m;
     }
 

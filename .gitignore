@@ -3,6 +3,9 @@
 # fichiers
 *.mp3
 
+#cache
+__pycache__/
+
 # dependencies
 node_modules/
 venv-projet-horloge/

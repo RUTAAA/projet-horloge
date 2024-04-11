@@ -1,6 +1,7 @@
 # IMPORTS
 
 import paho.mqtt.client as pahomqtt
+import paho.mqtt.publish as publish
 import datetime
 
 
@@ -17,6 +18,7 @@ def on_connect(client, userdata, flags, reason_code, properties):
 def on_message(client, userdata, msg):
     print("Topic: " + msg.topic +"    Message: "+ msg.payload.decode())
     if msg.payload.decode() == "Presence detectee":
+        global presence
         presence = datetime.datetime.now().hour*60 + datetime.datetime.now().minute
 
 def sub(topic, broker, port, username, password):

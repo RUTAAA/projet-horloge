@@ -1,13 +1,14 @@
 import React, { useState, useEffect, createContext } from "react";
 
-/*
+
 export const IDUtilisateur = 1;
 export const clefAPI =
     "cehb78icef2as5tlcqs6vryfpbvmdndbme72j8daubjdj9nvfzi4dv0flf";
-*/
+/*
 export const IDUtilisateur = 8;
-export const clefAPI = "hqbmqzpbw1dzgum7cbeo4zt1tla41tzgplpvywkd745fmwl6lwrt9cg3by";
-
+export const clefAPI =
+    "hqbmqzpbw1dzgum7cbeo4zt1tla41tzgplpvywkd745fmwl6lwrt9cg3by";
+*/
 export const tailleHorloge = 800;
 export const bigFontSize = tailleHorloge * 0.05;
 
@@ -20,7 +21,7 @@ export function Donnees() {
         var response = [""];
         try {
             response = await fetch(
-                `http://10.0.200.37:5000/configuration/${IDUtilisateur}`,
+                `http://10.4.4.4:5000/configuration/${IDUtilisateur}`,
                 {
                     method: "GET",
                     mode: "cors",
@@ -53,7 +54,7 @@ export function Donnees() {
 
     useEffect(() => {
         getConfiguration();
-        console.log(configuration)
+        console.log(configuration);
     }, [configuration]);
 
     return [configuration, periodes, evenements];
