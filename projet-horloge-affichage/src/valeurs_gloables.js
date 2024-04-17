@@ -1,5 +1,4 @@
-import React, { useState, useEffect, createContext } from "react";
-
+import React, { useState, useEffect } from "react";
 
 export const IDUtilisateur = 1;
 export const clefAPI =
@@ -54,7 +53,6 @@ export function Donnees() {
 
     useEffect(() => {
         getConfiguration();
-        console.log(configuration);
     }, [configuration]);
 
     return [configuration, periodes, evenements];

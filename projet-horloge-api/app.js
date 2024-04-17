@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cors({ origin: "*" }));
 app.listen(port, () => console.log(`listening here: http://localhost:${port}`));
 const connection = mysql.createConnection({
-    host: "10.0.200.37",
+    host: "127.0.0.1",
     user: "admineleve",
     password: "ieufdl",
     database: "projet_horloge",
@@ -32,11 +32,7 @@ const connection = mysql.createConnection({
 // FONCTIONS
 async function mayonnaise(res, query, IDUtilisateur, APIKey) {
     connection.query(
-        "SELECT * FROM utilisateurs WHERE id=" +
-            IDUtilisateur +
-            " AND clef_api='" +
-            APIKey +
-            "'",
+        "SELECT * FROM utilisateurs WHERE id=" + IDUtilisateur + " AND clef_api='" + APIKey + "'",
         (err, result) => {
             if (result === undefined) {
                 res.status(500).send({ Erreur: "Hmm, bizarre..." });
@@ -128,12 +124,33 @@ app.get("/configuration/:id_utilisateur", (req, res) => {
     const { id_utilisateur } = req.params;
     const clef_api = req.header("API-Key");
     const query =
-        "SELECT periodes.nom, periodes.debut, periodes.duree, periodes.couleur, 'periode' as type FROM periodes JOIN stations ON periodes.id_configuration = stations.id_configuration AND stations.id_utilisateur = " +
+        "SELECT periodes.nom, periodes.debut, periodes.duree, periodes.couleur, periodes.odeur, periodes.pictogramme, 'periode' as type FROM periodes JOIN stations ON periodes.id_configuration = stations.id_configuration AND stations.id_utilisateur = " +
         id_utilisateur +
-        " UNION SELECT evenements.nom, evenements.debut, evenements.duree, evenements.couleur, 'evenement' as type FROM evenements WHERE evenements.id_utilisateur = " +
+        " UNION SELECT evenements.nom, evenements.debut, evenements.duree, evenements.couleur, evenements.odeur, evenements.pictogramme, 'evenement' as type FROM evenements WHERE evenements.id_utilisateur = " +
         id_utilisateur +
         " ORDER BY debut ASC";
     mayonnaise(res, query, id_utilisateur, clef_api);
+});
+//
+
+// MEDIAS
+
+// get medias by id_utilisateur
+app.get("/medias/:id_utilisateur", (req, res) => {
+    const { id_utilisateur } = req.params;
+    const clef_api = req.header("API-Key");
+    const query = "SELECT * FROM medias WHERE id_utilisateur = " + id_utilisateur;
+    mayonnaise(res, query, id_utilisateur, clef_api);
+});
+
+//
+
+// PICTOGRAMMES
+
+// get pictogrammes
+app.get("/pictogrammes", (req, res) => {
+    const query = "SELECT * FROM pictogrammes";
+    taboule(res, query);
 });
 
 //
@@ -143,11 +160,11 @@ app.get("/configuration/:id_utilisateur", (req, res) => {
 // test get configuration by id_utilisateur
 app.get("/test/configuration/:id_utilisateur", (req, res) => {
     const { id_utilisateur } = req.params;
-    const clef_api = req.header("API-Key");
+    // const clef_api = req.header("API-Key");
     const query =
-        "SELECT periodes.nom, periodes.debut, periodes.duree, periodes.couleur, 'periode' as type FROM periodes JOIN stations ON periodes.id_configuration = stations.id_configuration AND stations.id_utilisateur = " +
+        "SELECT periodes.nom, periodes.debut, periodes.duree, periodes.couleur, periodes.pictogramme, 'periode' as type FROM periodes JOIN stations ON periodes.id_configuration = stations.id_configuration AND stations.id_utilisateur = " +
         id_utilisateur +
-        " UNION SELECT evenements.nom, evenements.debut, evenements.duree, evenements.couleur, 'evenement' as type FROM evenements WHERE evenements.id_utilisateur = " +
+        " UNION SELECT evenements.nom, evenements.debut, evenements.duree, evenements.couleur, evenements.pictogramme, 'evenement' as type FROM evenements WHERE evenements.id_utilisateur = " +
         id_utilisateur +
         " ORDER BY debut ASC";
     taboule(res, query);

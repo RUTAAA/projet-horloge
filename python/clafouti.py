@@ -18,7 +18,7 @@ import os
 
 # pour se connecter au topic sur le broker MQTT
 broker = {
-    "ip":"10.0.200.35",
+    "ip":"10.4.4.5",
     "port":1883,
     "utilisateur":"admineleve",
     "mot_de_passe":"ieufdl",
@@ -34,7 +34,7 @@ utilisateur = {
 
 # pour contacter l'API
 constantes_api = {
-    "ip":"10.0.200.57",
+    "ip":"10.4.4.4",
     "port":"5000",
 }
 
