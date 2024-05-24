@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "projet-horloge-affichage",
-    "slug": "projet-horloge-affichage",
+    "name": "affichage-horloge",
+    "slug": "affichage-horloge",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,9 +11,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
       "supportsTablet": true
     },
