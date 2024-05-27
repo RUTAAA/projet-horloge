@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { FlatList } from "react-native";
+import { Buffer } from "buffer";
 
 export default function App() {
     const [pictogrammes, setPictogrammes] = useState([]);
@@ -18,20 +20,33 @@ export default function App() {
         } catch (error) {
             //console.error(error);
         } finally {
-            // PAS FINI ICI
-
-            response.forEach((pictogramme) => {
-                pictogramme.image.toString();
-            });
+            for (let i = 0; i < response.length; i++) {
+                response[i].image = Buffer.from(response[i].image)
+                    .toString()
+                    .split("?>\n")[1];
+            }
 
             setPictogrammes(response);
         }
     };
 
-    getPictogrammes();
     useEffect(() => {
-        console.log(pictogrammes);
-    }, [pictogrammes]);
+        const interval = setInterval(() => {
+            getPictogrammes();
+        }, 1000);
+        return () => clearInterval(interval);
+    }, []);
 
-    return <></>;
+    return (
+        <FlatList
+            data={pictogrammes}
+            renderItem={({ item }) => (
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: item === undefined ? "" : item.image,
+                    }}
+                />
+            )}
+        />
+    );
 }
