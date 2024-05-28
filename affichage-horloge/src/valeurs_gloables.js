@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 
+/* 
 export const IDUtilisateur = 1;
 export const clefAPI =
     "cehb78icef2as5tlcqs6vryfpbvmdndbme72j8daubjdj9nvfzi4dv0flf";
-/*
+
 export const IDUtilisateur = 8;
 export const clefAPI =
     "hqbmqzpbw1dzgum7cbeo4zt1tla41tzgplpvywkd745fmwl6lwrt9cg3by";
-*/
+ */
+export const IDUtilisateur = 70;
+export const clefAPI =
+    "hse4o46fgthl7ieos0uwxbxtzgsjg4juk17vjdkeu674hxwar1fiy9a8";
 export const tailleHorloge = 800;
 export const bigFontSize = tailleHorloge * 0.05;
 

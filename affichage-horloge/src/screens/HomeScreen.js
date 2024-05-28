@@ -11,8 +11,8 @@ import ListeEvenements from "../components/ListeEvenements";
 const HomeScreen = () => {
     return (
         <>
-            <Test />
-            {/* <View style={styles.left}>
+            {/* <Test /> */}
+            <View style={styles.left}>
                 <Horloge />
             </View>
             <View style={styles.right}>
@@ -20,7 +20,7 @@ const HomeScreen = () => {
                 <Heure />
                 <Moment />
                 <ListeEvenements />
-            </View> */}
+            </View>
         </>
     );
 };

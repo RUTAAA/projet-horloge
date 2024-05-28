@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 import PieChart from "react-native-pie-chart";
 import { tailleHorloge, Donnees } from "../valeurs_gloables";
+import { Buffer } from "buffer";
+import { posix } from "path";
 
 const padding = 50;
 const tailleLabel = tailleHorloge * 0.075;
@@ -22,9 +24,38 @@ function Horloge() {
     const [dureesPeriodes, setDureesPeriodes] = useState([1]);
     const [couleursPeriodes, setCouleursPeriodes] = useState(["transparent"]);
     const [dureesEvenements, setDureesEvenements] = useState([1]);
-    const [couleursEvenements, setCouleursEvenements] = useState(["transparent"]);
+    const [couleursEvenements, setCouleursEvenements] = useState([
+        "transparent",
+    ]);
     const [strokeEvenements, setStrokeEvenements] = useState([]);
     const [strokeWidthEvenements, setStrokeWidthEvenements] = useState([]);
+    const [pictogrammes, setPictogrammes] = useState([]);
+
+    const getPictogrammes = async () => {
+        var response = [""];
+        try {
+            response = await fetch(`http://10.4.4.4:5000/pictogrammes`, {
+                method: "GET",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }).then((res) => {
+                return res.json();
+            });
+        } catch (error) {
+            //console.error(error);
+        } finally {
+            for (let i = 0; i < response.length; i++) {
+                response[i].image =
+                    "<svg " +
+                    'height="70px" width="70px"' +
+                    Buffer.from(response[i].image).toString().split("<svg")[1];
+            }
+
+            setPictogrammes(response);
+        }
+    };
 
     const getPeriodes = async (periodes, evenements) => {
         var tempDureesPeriodes = [];
@@ -40,24 +71,27 @@ function Horloge() {
         var tempStrokeWidthEvenements = [];
         var x = 0;
         evenements.forEach((element) => {
-            if (element.debut >= x) {
+            if (element.debut > x) {
                 tempDureesEvenements.push(element.debut - x);
                 tempCouleursEvenements.push("transparent");
                 tempStrokeWidthEvenements.push(0);
                 tempStrokeEvenements.push("transparent");
-                x = element.debut + element.duree;
             }
             tempDureesEvenements.push(element.duree);
             tempCouleursEvenements.push(element.couleur);
             tempStrokeWidthEvenements.push(3);
             tempStrokeEvenements.push("black");
+            x = element.debut + element.duree;
         });
         if (x < 1440) {
             tempDureesEvenements.push(1440 - x);
             tempCouleursEvenements.push("transparent");
         }
 
-        if (tempDureesPeriodes.length != 0 && tempCouleursPeriodes.length != 0) {
+        if (
+            tempDureesPeriodes.length != 0 &&
+            tempCouleursPeriodes.length != 0
+        ) {
             setDureesPeriodes(tempDureesPeriodes);
             setCouleursPeriodes(tempCouleursPeriodes);
         }
@@ -74,8 +108,20 @@ function Horloge() {
         }
     };
 
+    function findRotation(debut, duree) {
+        return ((debut + duree / 2) / (1440 / 100)) * (360 / 100);
+    }
+
+    function htmlSVG(IDPictogramme) {
+        if (IDPictogramme !== null && pictogrammes !== undefined) {
+            return pictogrammes.find((x) => x.id === IDPictogramme).image;
+        }
+        return "";
+    }
+
     useEffect(() => {
         getPeriodes(periodes, evenements);
+        getPictogrammes();
         setRotation({
             deg: (new Date().getHours() * 60 + new Date().getMinutes()) / 4,
         });
@@ -95,12 +141,42 @@ function Horloge() {
                 widthAndHeight={horlogeEvenementsTaille}
                 coverRadius={horlogeEvenementsTrouTaille}
                 coverFill={horlogeEvenementsTrouCouleur}
-                style={{ position: "absolute", opacity: horlogeEvenementsOpacite }}
+                style={{
+                    position: "absolute",
+                    opacity: horlogeEvenementsOpacite,
+                }}
                 series={dureesEvenements}
                 sliceColor={couleursEvenements}
                 stroke={strokeEvenements}
                 strokeWidth={strokeWidthEvenements}
             ></PieChart>
+
+            <FlatList
+                style={styles.svgsList}
+                data={evenements}
+                renderItem={({ item }) => (
+                    <div
+                        style={{
+                            position: "absolute",
+                            height: tailleHorloge - tailleHorloge * 0.1,
+                            left: "calc(50% - 35px)",
+                            width: "70px",
+                            paddingTop: "10%",
+                            backgroundColor: "transparent",
+                            transform: `rotateZ(${findRotation(
+                                item.debut,
+                                item.duree
+                            )}deg)`,
+                        }}
+                        dangerouslySetInnerHTML={{
+                            __html:
+                                item === undefined
+                                    ? ""
+                                    : htmlSVG(item.pictogramme),
+                        }}
+                    />
+                )}
+            />
 
             <View
                 style={[
@@ -233,6 +309,12 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: tailleLabel * 0.7,
         lineHeight: tailleLabel,
+    },
+    svgsList: {
+        height: tailleHorloge,
+        width: tailleHorloge,
+        position: "absolute",
+        backgroundColor: "transparent",
     },
 });
 

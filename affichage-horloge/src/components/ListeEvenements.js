@@ -6,6 +6,32 @@ const ListeEvenements = () => {
     const [configuration, periodes, evenements] = Donnees();
     const [evenementActuel, setEvenementActuel] = useState();
     const [evenementSuivant, setEvenementSuivant] = useState();
+    const [pictogrammes, setPictogrammes] = useState([]);
+
+    const getPictogrammes = async () => {
+        var response = [""];
+        try {
+            response = await fetch(`http://10.4.4.4:5000/pictogrammes`, {
+                method: "GET",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }).then((res) => {
+                return res.json();
+            });
+        } catch (error) {
+            //console.error(error);
+        } finally {
+            for (let i = 0; i < response.length; i++) {
+                response[i].image = Buffer.from(response[i].image)
+                    .toString()
+                    .split("?>\n")[1];
+            }
+
+            setPictogrammes(response);
+        }
+    };
 
     function trouverMoment(array) {
         if (array === undefined) {
