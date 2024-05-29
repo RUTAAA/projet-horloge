@@ -15,6 +15,7 @@ const horlogePeriodesTrouCouleur = "#ffffff";
 const horlogeEvenementsTrouCouleur = "#ffffff00";
 const horlogePeriodesOpacite = 0.5;
 const horlogeEvenementsOpacite = 1;
+const taillePictogrammes = 50;
 
 function Horloge() {
     const [rotation, setRotation] = useState({
@@ -49,7 +50,11 @@ function Horloge() {
             for (let i = 0; i < response.length; i++) {
                 response[i].image =
                     "<svg " +
-                    'height="70px" width="70px"' +
+                    'height="' +
+                    taillePictogrammes +
+                    'px" width="' +
+                    taillePictogrammes +
+                    'px" fill="black" stroke="white"' +
                     Buffer.from(response[i].image).toString().split("<svg")[1];
             }
 
@@ -159,8 +164,9 @@ function Horloge() {
                         style={{
                             position: "absolute",
                             height: tailleHorloge - tailleHorloge * 0.1,
-                            left: "calc(50% - 35px)",
-                            width: "70px",
+                            left:
+                                "calc(50% - " + taillePictogrammes / 2 + "px)",
+                            width: taillePictogrammes + "px",
                             paddingTop: "10%",
                             backgroundColor: "transparent",
                             transform: `rotateZ(${findRotation(
@@ -168,13 +174,22 @@ function Horloge() {
                                 item.duree
                             )}deg)`,
                         }}
-                        dangerouslySetInnerHTML={{
-                            __html:
-                                item === undefined
-                                    ? ""
-                                    : htmlSVG(item.pictogramme),
-                        }}
-                    />
+                    >
+                        <div
+                            style={{
+                                transform: `rotateZ(${-findRotation(
+                                    item.debut,
+                                    item.duree
+                                )}deg)`,
+                            }}
+                            dangerouslySetInnerHTML={{
+                                __html:
+                                    item === undefined
+                                        ? ""
+                                        : htmlSVG(item.pictogramme),
+                            }}
+                        />
+                    </div>
                 )}
             />
 
