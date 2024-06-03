@@ -40,7 +40,7 @@ constantes_api = {
 
 # pour contrôler la prise connectée
 prise = {
-    "ip":"192.168.1.104",
+    "ip":"192.168.1.102",
     "email":"projethorlogesnir@gmail.com",
     "mot_de_passe":"stjolorient0-",
 }
