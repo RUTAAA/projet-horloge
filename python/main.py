@@ -3,12 +3,15 @@
 import mqtt
 import api
 import synthese_vocale
+import prise
 
 import requests
 import datetime
 import time
 from threading import Thread
 import os
+import asyncio
+from tapo import ApiClient
 
 
 
@@ -29,7 +32,7 @@ broker = {
 # pour la base de données /  l'api
 utilisateur = {
     "id":"70",
-    "clef_api":"hqbmqzpbw1dzgum7cbeo4zt1tla41tzgplpvywkd745fmwl6lwrt9cg3by",
+    "clef_api":"hse4o46fgthl7ieos0uwxbxtzgsjg4juk17vjdkeu674hxwar1fiy9a8",
 }
 
 # pour contacter l'API
@@ -39,10 +42,10 @@ constantes_api = {
 }
 
 # pour contrôler la prise connectée
-prise = {
-    "ip":"192.168.1.102",
+constantes_prise = {
     "email":"projethorlogesnir@gmail.com",
     "mot_de_passe":"stjolorient0-",
+    "ip":"192.168.1.102",
 }
 
 
@@ -93,12 +96,12 @@ while True:
                     # noter l'heure à laquelle on active l'odeur
                     odeur = datetime.datetime.now().hour*60 + datetime.datetime.now().minute
                     # puis allumer la prise, pour le diffuseur olfactif
-                    os.system("kasa --host "+ prise["ip"] +" --username "+ prise["email"] +" --password "+ prise["mot_de_passe"] +" on")
-
+                    asyncio.run(prise.allumer_prise(constantes_prise["email"], constantes_prise["mot_de_passe"], constantes_prise["ip"]))
+    
     # si l'odeur est activée depuis suffisamment longtemps
     if odeur <= now - temps_odeur and odeur != -1:
         # éteindre la prise, pour éteindre le diffuseur olfactif
-        os.system("kasa --host "+ prise["ip"] +" --username "+ prise["email"] +" --password "+ prise["mot_de_passe"] +" off")
+        asyncio.run(prise.eteindre_prise(constantes_prise["email"], constantes_prise["mot_de_passe"], constantes_prise["ip"]))
         # noter que le diffuseur est désactivé
         odeur = -1
     
