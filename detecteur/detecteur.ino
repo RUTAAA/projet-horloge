@@ -19,7 +19,7 @@ PubSubClient client(espClient);
 volatile int DETECT = 0; 
 
 // Tâche du capteur de présence (radar) 
-void detecter_publier() { 
+void detecter_publier(void* pvParameters) { 
     int R = 32; // broche du radar sur G32 
     pinMode(R, INPUT); // Définir la broche en entrée 
 
@@ -36,7 +36,7 @@ void detecter_publier() {
 } 
 
 // Tâche de l'écran LCD 
-void affichage() { 
+void affichage(void* pvParameters) { 
     char mess[16]; 
     // Paramètres du cercle 
     int R = M5.Lcd.width() / 10; 
@@ -60,7 +60,7 @@ void affichage() {
 } 
 
 // Tâche pour gérer l'affichage de la connexion Wi-Fi et MQTT
-void connexion_wifi() {
+void connexion_wifi(void* pvParameters) {
     while (1) {
         // Vérifier la connexion Wi-Fi
         if (WiFi.status() == WL_CONNECTED) {
