@@ -19,7 +19,7 @@ PubSubClient client(espClient);
 volatile int DETECT = 0; 
 
 // Tâche du capteur de présence (radar) 
-void tache_RADAR(void* pvParameters) { 
+void detecter_publier() { 
     int R = 32; // broche du radar sur G32 
     pinMode(R, INPUT); // Définir la broche en entrée 
 
@@ -36,7 +36,7 @@ void tache_RADAR(void* pvParameters) {
 } 
 
 // Tâche de l'écran LCD 
-void tache_LCD(void* pvParameters) { 
+void affichage() { 
     char mess[16]; 
     // Paramètres du cercle 
     int R = M5.Lcd.width() / 10; 
@@ -60,7 +60,7 @@ void tache_LCD(void* pvParameters) {
 } 
 
 // Tâche pour gérer l'affichage de la connexion Wi-Fi et MQTT
-void tache_Connexion(void* pvParameters) {
+void connexion_wifi() {
     while (1) {
         // Vérifier la connexion Wi-Fi
         if (WiFi.status() == WL_CONNECTED) {
@@ -121,9 +121,9 @@ void setup() {
     M5.begin(); 
     setup_wifi(); 
     client.setServer(mqtt_server, mqtt_port); 
-    xTaskCreatePinnedToCore(tache_LCD, "Écran", 2048, NULL, 3, NULL, 0); 
-    xTaskCreatePinnedToCore(tache_RADAR, "Radar", 4096, NULL, 3, NULL, 0); // Augmentation de la taille de la pile à 4096 
-    xTaskCreatePinnedToCore(tache_Connexion, "Connexion", 2048, NULL, 2, NULL, 0); // Ajout de la tâche de connexion
+    xTaskCreatePinnedToCore(affichage, "Écran", 2048, NULL, 3, NULL, 0); 
+    xTaskCreatePinnedToCore(detecter_publier, "Radar", 4096, NULL, 3, NULL, 0); // Augmentation de la taille de la pile à 4096 
+    xTaskCreatePinnedToCore(connexion_wifi, "Connexion", 2048, NULL, 2, NULL, 0); // Ajout de la tâche de connexion
 } 
 
 void loop() { 
