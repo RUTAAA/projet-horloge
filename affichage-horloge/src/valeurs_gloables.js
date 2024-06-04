@@ -8,10 +8,15 @@ export const clefAPI =
 export const IDUtilisateur = 8;
 export const clefAPI =
     "hqbmqzpbw1dzgum7cbeo4zt1tla41tzgplpvywkd745fmwl6lwrt9cg3by";
- */
+
 export const IDUtilisateur = 70;
 export const clefAPI =
     "hse4o46fgthl7ieos0uwxbxtzgsjg4juk17vjdkeu674hxwar1fiy9a8";
+ */
+export const IDUtilisateur = 95;
+export const clefAPI =
+    "zsjukzmmie7uy9medr45uh1shl24fanb3uma1negrjc4ulc2l7hbah7vi3n9cs";
+ 
 export const tailleHorloge = 800;
 export const bigFontSize = tailleHorloge * 0.05;
 

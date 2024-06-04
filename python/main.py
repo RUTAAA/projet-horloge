@@ -31,8 +31,8 @@ broker = {
 
 # pour la base de données /  l'api
 utilisateur = {
-    "id":"70",
-    "clef_api":"hse4o46fgthl7ieos0uwxbxtzgsjg4juk17vjdkeu674hxwar1fiy9a8",
+    "id":"95",
+    "clef_api":"zsjukzmmie7uy9medr45uh1shl24fanb3uma1negrjc4ulc2l7hbah7vi3n9cs",
 }
 
 # pour contacter l'API
@@ -74,6 +74,7 @@ while True:
     # récupération des périodes et évènements de l'utilisateur via l'API
     donnees = api.getDonnees( utilisateur["id"], utilisateur["clef_api"], constantes_api["ip"], constantes_api["port"] )
 
+
     # maintenant en minutes, exemple: si 12h30 alors 12*60+30 = 750
     now = datetime.datetime.now().hour*60 + datetime.datetime.now().minute
 
@@ -87,12 +88,14 @@ while True:
             if donnee["debut"] == now:
 
                 # si une précense a été détecté récemment
-                if mqtt.presence <= now - temps_veille:
+                if mqtt.presence >= now - temps_veille:
                     # faire la synthèse vocale
+                    print("Execution de la synthese vocale")
                     synthese_vocale.lireMP3( synthese_vocale.genererMP3( donnee["nom"], donnee["nom"], save_location ), save_location )
                 
                 # si la période ou l'évènement demande une odeur
                 if donnee["odeur"] == 1:
+                    print("Activation du diffuseur olfactif")
                     # noter l'heure à laquelle on active l'odeur
                     odeur = datetime.datetime.now().hour*60 + datetime.datetime.now().minute
                     # puis allumer la prise, pour le diffuseur olfactif
@@ -100,6 +103,7 @@ while True:
     
     # si l'odeur est activée depuis suffisamment longtemps
     if odeur <= now - temps_odeur and odeur != -1:
+        print("Desactivation du diffuseur olfactif")
         # éteindre la prise, pour éteindre le diffuseur olfactif
         asyncio.run(prise.eteindre_prise(constantes_prise["email"], constantes_prise["mot_de_passe"], constantes_prise["ip"]))
         # noter que le diffuseur est désactivé
